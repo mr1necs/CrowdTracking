@@ -5,9 +5,9 @@ import cv2
 import numpy as np
 from tqdm import tqdm
 
-from utils import get_arguments
-from video_stream import VideoStream
-from yolo_model import YOLOModel
+from modules.utils import get_arguments
+from modules.video_stream import VideoStream
+from modules.yolo_model import YOLOModel
 
 
 class MainApp:
@@ -36,17 +36,9 @@ class MainApp:
         if self.output_path:
             fourcc = cv2.VideoWriter.fourcc(*"mp4v")
             fps = int(self.video_stream.capture.get(cv2.CAP_PROP_FPS)) or 30
-            width = int(
-                self.video_stream.capture.get(cv2.CAP_PROP_FRAME_WIDTH)
-            )
-            height = int(
-                self.video_stream.capture.get(cv2.CAP_PROP_FRAME_HEIGHT)
-            )
-            self.video_writer = cv2.VideoWriter(
-                self.output_path, fourcc, fps, (width, height)
-            )
-            print("VideoWriter opened:", self.video_writer.isOpened())
-            print("fps:", fps, "width:", width, "height:", height)
+            width = int(self.video_stream.capture.get(cv2.CAP_PROP_FRAME_WIDTH))
+            height = int(self.video_stream.capture.get(cv2.CAP_PROP_FRAME_HEIGHT))
+            self.video_writer = cv2.VideoWriter(self.output_path, fourcc, fps, (width, height))
         else:
             self.video_writer = None
 
@@ -68,20 +60,9 @@ class MainApp:
 
             for (x1, y1, x2, y2), conf in zip(bboxes, scores):
                 x1, y1, x2, y2 = map(int, (x1, y1, x2, y2))
-                cv2.rectangle(
-                    frame, (x1, y1), (x2, y2), (0, 255, 0), thickness=2
-                )
+                cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), thickness=2)
                 label = f"Person: {conf:.2f}"
-                cv2.putText(
-                    frame,
-                    label,
-                    (x1, y1 - 5),
-                    cv2.FONT_HERSHEY_SIMPLEX,
-                    0.5,
-                    (0, 255, 0),
-                    1,
-                    lineType=cv2.LINE_AA,
-                )
+                cv2.putText(frame, label, (x1, y1 - 5), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1, cv2.LINE_AA)
 
         return frame
 
@@ -100,9 +81,7 @@ class MainApp:
         """
         Run the main loop: read frames, detect objects, annotate, display, and save.
         """
-        total_frames = int(
-            self.video_stream.capture.get(cv2.CAP_PROP_FRAME_COUNT)
-        )
+        total_frames = int(self.video_stream.capture.get(cv2.CAP_PROP_FRAME_COUNT))
         pbar = tqdm(total=total_frames, desc="Processing video", unit="frame")
 
         while True:
@@ -110,9 +89,6 @@ class MainApp:
             if not grabbed or frame is None:
                 logging.info("No more frames or failed to capture.")
                 break
-
-            if frame is None:
-                print("Empty frame!")
 
             results = self.model.process_frame(frame)
             annotated = self.draw_boxes(frame, results)
@@ -125,7 +101,6 @@ class MainApp:
 
             if self.video_writer:
                 self.video_writer.write(annotated)
-                print("Frame written:", annotated.shape)
 
             pbar.update(1)
 
@@ -143,7 +118,5 @@ def main():
 
 
 if __name__ == "__main__":
-    logging.basicConfig(
-        level=logging.INFO, format="%(asctime)s [%(levelname)s]: %(message)s"
-    )
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s]: %(message)s")
     main()
