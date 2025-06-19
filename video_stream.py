@@ -2,7 +2,6 @@ import logging
 from typing import Optional, Tuple
 
 import cv2
-import imutils
 
 
 class VideoStream:
