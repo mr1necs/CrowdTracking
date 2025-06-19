@@ -14,8 +14,7 @@ def get_arguments() -> dict[str, str]:
         "-i",
         "--input",
         type=str,
-        default="crowd.mp4",
-        # required=True,
+        required=True,
         help="Path to input video (e.g. crowd.mp4)",
     )
     parser.add_argument(
