@@ -7,7 +7,7 @@ from ultralytics import YOLO
 
 class YOLOModel:
     """
-    Wrapper for the YOLO model that handles device selection, loading, and object detection.
+    Encapsulates the YOLO model for device selection, loading, and object detection.
     """
 
     def __init__(self, model_path: str, device: str = "cpu") -> None:
@@ -15,8 +15,8 @@ class YOLOModel:
         Initialize the YOLOModel.
 
         Args:
-            model_path: Path to the YOLO model file.
-            device: Preferred device ("cpu", "cuda", "mps").
+            model_path (str): Path to the YOLO model file.
+            device (str): Preferred device ("cpu", "cuda", "mps").
         """
         logging.getLogger("ultralytics").setLevel(logging.ERROR)
         self.device = self._select_device(device)
@@ -28,10 +28,10 @@ class YOLOModel:
         Select the computation device.
 
         Args:
-            preferred_device: Preferred device ("cpu", "cuda", "mps").
+            preferred_device (str): Preferred device ("cpu", "cuda", "mps").
 
         Returns:
-            The available device as a string.
+            str: The available device as a string.
         """
         if preferred_device == "mps" and mps.is_available():
             device = "mps"
@@ -54,10 +54,10 @@ class YOLOModel:
         Load the YOLO model onto the selected device.
 
         Args:
-            model_path: Path to the YOLO model file.
+            model_path (str): Path to the YOLO model file.
 
         Returns:
-            The loaded YOLO model.
+            YOLO: The loaded YOLO model.
         """
         try:
             model = YOLO(model_path).to(self.device)
@@ -67,14 +67,14 @@ class YOLOModel:
             logging.error(f"Error loading YOLO model: {exc}")
             raise
 
-    def process_frame(self, frame) -> list[tuple[str, float, tuple[int, int, int, int]]]:
+    def process_frame(self, frame) -> list:
         """
-        Process a frame and perform object detection.
+        Perform object detection on a frame.
 
         Args:
             frame: Input frame (image).
 
         Returns:
-            A list of detected objects as tuples (class name, confidence, bounding box coordinates).
+            list: List of detected objects (YOLO results for class 'person').
         """
         return self.model(frame, classes=[0])
