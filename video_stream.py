@@ -15,7 +15,7 @@ class VideoStream:
         Initialize the video stream.
 
         Args:
-            video_path: Path to a video file. If None, uses the default camera.
+            video_path (Optional[str]): Path to a video file. If None, uses the default camera.
         """
         self.capture = self._open_stream(video_path)
 
@@ -24,10 +24,10 @@ class VideoStream:
         Open the video stream.
 
         Args:
-            video_path: Path to a video file. If None, uses the default camera.
+            video_path (Optional[str]): Path to a video file. If None, uses the default camera.
 
         Returns:
-            A cv2.VideoCapture object.
+            cv2.VideoCapture: Opened video capture object.
         """
         source = 0 if video_path is None else video_path
         cap = cv2.VideoCapture(source)
@@ -41,20 +41,18 @@ class VideoStream:
         Read the next frame from the video stream.
 
         Returns:
-            A tuple (success, frame), where success indicates if the frame was
-            captured, and frame is the resized image or None.
+            Tuple[bool, Optional[any]]: (success, frame), where success indicates if the frame was
+            captured, and frame is the image or None.
         """
         success, frame = self.capture.read()
         if not success:
             logging.info("End of stream or failed to capture frame")
             return success, None
-
-        resized = imutils.resize(frame, width=800)
-        return True, resized
+        return True, frame
 
     def release(self) -> None:
         """
-        Release the video stream.
+        Release the video stream and free resources.
         """
         if self.capture.isOpened():
             self.capture.release()
