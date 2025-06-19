@@ -19,7 +19,7 @@ CrowdTracking — это Python-приложение для детекции л�
 ## Установка
 1. Клонируйте репозиторий или скачайте исходный код:
    ```bash
-   git clone https://github.com/yourusername/CrowdTracking.git
+   git clone https://github.com/mr1necs/CrowdTracking.git
    cd CrowdTracking
    ```
 2. Установите необходимые зависимости:
