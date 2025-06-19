@@ -43,9 +43,10 @@ python main.py --input crowd.mp4 --output output.mp4 --model yolov11n.pt --devic
 - На выходе получается видеофайл (например, `output.mp4`) с отрисованными рамками вокруг каждого обнаруженного человека.
 - Для каждой рамки указывается имя класса (`Person`) и уровень уверенности.
 <div align="center">
-  <video src="crowd.mp4" width="400" controls loop></video>
-  <video src="output.mp4" width="400" controls loop></video>
+  <img src="before.gif" width="45%" alt="До обработки"/>
+  <img src="after.gif" width="45%" alt="После обработки"/>
 </div>
+
 
 ## Кроссплатформенность
 Программа полностью кроссплатформенная и одинаково работает на Linux, macOS и Windows. Все зависимости устанавливаются через PyPI и не требуют специальных шагов для разных платформ.
