@@ -38,7 +38,9 @@ class MainApp:
             fps = int(self.video_stream.capture.get(cv2.CAP_PROP_FPS)) or 30
             width = int(self.video_stream.capture.get(cv2.CAP_PROP_FRAME_WIDTH))
             height = int(self.video_stream.capture.get(cv2.CAP_PROP_FRAME_HEIGHT))
-            self.video_writer = cv2.VideoWriter(self.output_path, fourcc, fps, (width, height))
+            self.video_writer = cv2.VideoWriter(
+                self.output_path, fourcc, fps, (width, height)
+            )
         else:
             self.video_writer = None
 
@@ -62,7 +64,16 @@ class MainApp:
                 x1, y1, x2, y2 = map(int, (x1, y1, x2, y2))
                 cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), thickness=2)
                 label = f"Person: {conf:.2f}"
-                cv2.putText(frame, label, (x1, y1 - 5), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1, cv2.LINE_AA)
+                cv2.putText(
+                    frame,
+                    label,
+                    (x1, y1 - 5),
+                    cv2.FONT_HERSHEY_SIMPLEX,
+                    0.5,
+                    (0, 255, 0),
+                    1,
+                    cv2.LINE_AA,
+                )
 
         return frame
 
@@ -118,5 +129,7 @@ def main():
 
 
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s]: %(message)s")
+    logging.basicConfig(
+        level=logging.INFO, format="%(asctime)s [%(levelname)s]: %(message)s"
+    )
     main()
