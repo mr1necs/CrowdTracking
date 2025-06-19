@@ -14,7 +14,7 @@ class VideoStream:
         Initialize the video stream.
 
         Args:
-            video_path (Optional[str]): Path to a video file. If None, uses the default camera.
+            video_path (Optional[str]): Path to a video file.
         """
         self.capture = self._open_stream(video_path)
 
@@ -23,15 +23,14 @@ class VideoStream:
         Open the video stream.
 
         Args:
-            video_path (Optional[str]): Path to a video file. If None, uses the default camera.
+            video_path (Optional[str]): Path to a video file.
 
         Returns:
             cv2.VideoCapture: Opened video capture object.
         """
-        source = 0 if video_path is None else video_path
-        cap = cv2.VideoCapture(source)
+        cap = cv2.VideoCapture(video_path)
         if not cap.isOpened():
-            logging.error("Failed to open video source: %s", source)
+            logging.error("Failed to open video source: %s", video_path)
             exit(1)
         return cap
 
