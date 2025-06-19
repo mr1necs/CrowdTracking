@@ -45,7 +45,7 @@ python main.py --input crowd.mp4 --output output.mp4
 
 ### Пример
 ```bash
-python main.py --input crowd.mp4 --output output.mp4 --model yolov11n.pt --device mps --show
+python main.py --input crowd.mp4 --output output.mp4 --model yolo11n.pt --device mps --show
 ```
 
 ## Результат
